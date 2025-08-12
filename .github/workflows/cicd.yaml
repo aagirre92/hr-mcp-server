@@ -23,6 +23,15 @@ jobs:
         with:
           project_id: tests-andoni
 
+      - name: Debug gcloud context
+        run: |
+          set -e
+          echo "gcloud version:" && gcloud --version
+          echo "\nConfig:" && gcloud config list
+          echo "\nAuth accounts:" && gcloud auth list
+          echo "\nEnabled services (subset):" && gcloud services list --enabled --format="value(config.name)" | grep -E "(run.googleapis.com|cloudbuild.googleapis.com|artifactregistry.googleapis.com)" || true
+          echo "\nCloud Run services in us-central1 (if any):" && gcloud run services list --region=us-central1 || true
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy hr-mcp-server2 \
