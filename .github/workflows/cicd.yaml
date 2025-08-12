@@ -31,6 +31,7 @@ jobs:
           echo "\nAuth accounts:" && gcloud auth list
           echo "\nEnabled services (subset):" && gcloud services list --enabled --format="value(config.name)" | grep -E "(run.googleapis.com|cloudbuild.googleapis.com|artifactregistry.googleapis.com)" || true
           echo "\nCloud Run services in us-central1 (if any):" && gcloud run services list --region=us-central1 || true
+          echo "\nDescribe hr-mcp-server2:" && gcloud run services describe hr-mcp-server2 --region=us-central1 --format=json | jq -r '.spec.template.spec.serviceAccountName // "<none>"' || true
 
       - name: Deploy to Cloud Run
         run: |
