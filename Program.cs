@@ -1,5 +1,3 @@
-using ModelContextProtocol.Server;
-using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using HRMCPServer;
@@ -22,7 +20,7 @@ builder.Services.AddScoped<ICandidateService, CandidateService>();
 builder.Services.AddMcpServer()
     .WithHttpTransport()
     .WithToolsFromAssembly();
-    
+
 var app = builder.Build();
 
 // Configure the application to use the MCP server
@@ -38,7 +36,7 @@ static async Task<List<Candidate>> LoadCandidatesAsync(IConfiguration configurat
     try
     {
         var hrConfig = configuration.GetSection(HRMCPServerConfiguration.SectionName).Get<HRMCPServerConfiguration>();
-        
+
         if (hrConfig == null || string.IsNullOrEmpty(hrConfig.CandidatesPath))
         {
             Console.WriteLine("HR configuration or CandidatesPath not found. Using empty candidate list.");
